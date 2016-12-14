@@ -1,5 +1,6 @@
 package com.example.luke.classname;
 
+import android.graphics.Color;
 import android.os.Bundle;
 import android.support.design.widget.FloatingActionButton;
 import android.support.design.widget.Snackbar;
@@ -12,8 +13,12 @@ import android.widget.Button;
 import android.widget.LinearLayout;
 import android.widget.RelativeLayout;
 
+import static android.graphics.Color.GREEN;
+import static android.graphics.Color.green;
+
 public class MainActivity extends AppCompatActivity{
     int sum=26;
+    int ord=sum-1;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -30,22 +35,34 @@ public class MainActivity extends AppCompatActivity{
                 "甘海林","赵裕霖","毛嘉豪","梁倩",
                 "黄仲英","刘中江","陈启凡","于媛芳",
                 "曹志雄","刘强"};
-        LinearLayout linearLayout = (LinearLayout) findViewById(R.id.bodyLayout);
-        Button btn[] = new Button[sum];
+        final LinearLayout linearLayout = (LinearLayout) findViewById(R.id.bodyLayout);
+        final Button btn[] = new Button[sum];
+        LinearLayout.LayoutParams lp = new LinearLayout.LayoutParams(LinearLayout.LayoutParams.WRAP_CONTENT, LinearLayout.LayoutParams.WRAP_CONTENT);
+        lp.setMargins(1,10,100,1);
+
         for(int i=0;i<sum;i++)
         {
             btn[i]=new Button(this);
             btn[i].setId(View.generateViewId());
             btn[i].setText(stuName[i]);
+            //final LinearLayout.LayoutParams lp = (LinearLayout.LayoutParams) btn[i].getLayoutParams();
+            //lp.height=LinearLayout.LayoutParams.WRAP_CONTENT;
+            //lp.width=LinearLayout.LayoutParams.FILL_PARENT;
+            btn[i].setLayoutParams(lp);
+            linearLayout.addView(btn[i]);
             btn[i].setOnClickListener(new View.OnClickListener()
             {
                 @Override
                 public void onClick(View v)
                 {
-
+                    linearLayout.removeView(v);
+                    v.setBackgroundColor(GREEN);
+                    //v.setLayoutParams(lp);
+                    linearLayout.addView(v,ord);
+                    ord--;
                 }
             });
-            linearLayout.addView(btn[i]);
+
         }
 
 
