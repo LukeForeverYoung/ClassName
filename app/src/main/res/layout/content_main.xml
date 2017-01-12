@@ -14,17 +14,45 @@
     tools:showIn="@layout/activity_main">
 
 
+    <TextView
+        android:layout_width="match_parent"
+        android:layout_height="20sp"
+        android:id="@+id/testText"
+        />
     <ScrollView
         android:layout_width="match_parent"
         android:layout_height="match_parent">
-
         <LinearLayout
             android:orientation="vertical"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            android:id="@+id/bodyLayout">
+            >
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:text="@string/waiting"/>
+            <LinearLayout
+                android:orientation="vertical"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+
+                android:id="@+id/bodyLayout1">
+            </LinearLayout>
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:text="@string/finish"/>
+            <LinearLayout
+                android:orientation="vertical"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+
+                android:id="@+id/bodyLayout2">
+            </LinearLayout>
         </LinearLayout>
+
     </ScrollView>
+
 
 
 </RelativeLayout>
