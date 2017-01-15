@@ -1,7 +1,15 @@
 <resources>
     <string name="app_name">ClassName</string>
+    <string name="show_name">ShowName</string>
     <string name="action_settings">Settings</string>
     <string name="waiting">待点到</string>
     <string name="finish">已点到</string>
     <string name="save_info">save data</string>
+    <string-array name="class_name">
+        <item>计算机网络</item>
+        <item>面向对象程序设计</item>
+        <item>操作系统</item>
+        <item>毛概</item>
+        <item>军事理论</item>
+    </string-array>
 </resources>

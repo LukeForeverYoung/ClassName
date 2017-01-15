@@ -9,12 +9,14 @@
         android:title="@string/action_settings"
         app:showAsAction="never" />
     <item
+        android:id="@+id/show_list"
+        android:orderInCategory="300"
+        android:title="Show list"
+        app:showAsAction="never"/>
+    <item
         android:id="@+id/save_info"
         android:orderInCategory="200"
         android:title="@string/save_info"
-
-        app:showAsAction="never"
-        >
-
+        app:showAsAction="never">
     </item>
 </menu>
