@@ -9,7 +9,6 @@ import android.support.design.widget.FloatingActionButton;
 import android.support.design.widget.Snackbar;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
-import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
@@ -26,7 +25,7 @@ public class MainActivity extends AppCompatActivity{
     int sum=26;
     int classTag=0;
     public Button btn[] = new Button[sum];
-    public String stuName[] = new String[]{
+    static public String stuName[] = new String[]{
             "施信含", "曹焰", "邱若晨", "吕玉辉",
             "陈玉琪", "胡悦", "刘振环", "谢若天",
             "颜松", "叶加博", "刘航", "熊雨晨",
@@ -82,11 +81,11 @@ public class MainActivity extends AppCompatActivity{
         // as you specify a parent activity in AndroidManifest.xml.
         int id = item.getItemId();
         //Log.v("12","123");
-        Toast.makeText(getApplicationContext(),"保存ing",Toast.LENGTH_SHORT).show();
         switch (id)
         {
             case R.id.save_info:
             {
+                Toast.makeText(getApplicationContext(),"保存ing",Toast.LENGTH_SHORT).show();
                 if(saveDataFunc())
                     Toast.makeText(getApplicationContext(),"保存完毕",Toast.LENGTH_LONG).show();
                 else
@@ -116,7 +115,7 @@ public class MainActivity extends AppCompatActivity{
         String nowTimeStr;
 
         String section[] = new String[]{"ID","name","tag"};
-        nowTimeStr="add"+String.valueOf(cal.get(Calendar.YEAR))+"_"+String.valueOf(cal.get(Calendar.MONTH))+"_"+String.valueOf(cal.get(Calendar.DAY_OF_MONTH));
+        nowTimeStr="add"+String.valueOf(cal.get(Calendar.YEAR))+"_"+String.valueOf(cal.get(Calendar.MONTH)+1)+"_"+String.valueOf(cal.get(Calendar.DAY_OF_MONTH));
         String tabName = "classTag"+classTag+nowTimeStr;
         //Log.v("str",tabName);
         String creatCom = "create table "+tabName+" (ID INT PRIMARY KEY NOT NULL,name text,tag int)";
@@ -135,26 +134,6 @@ public class MainActivity extends AppCompatActivity{
             tempStu.put("tag",(int)btn[i].getTag());
             dbs.insert(tabName,null,tempStu);
         }
-
-
-        //dbs.insert(nowTimeStr,null,tempStu);
-
-        //TextView tx = (TextView)findViewById(R.id.testText);
-        Cursor readTemp;
-        //dbs = openOrCreateDatabase("stuINFO.db",MODE_PRIVATE,null);
-        readTemp= dbs.query(tabName,section,null,null,null,null,null);
-        //readTemp = dbs.rawQuery("select * from "+nowTimeStr,null);
-        String sss = new String("123");
-        int test=readTemp.getCount();
-        for(int i=1;i<=readTemp.getCount();i++)
-        {
-            readTemp.move(i);
-            sss+=readTemp.getString(readTemp.getColumnIndex(section[1]));
-            sss+=" "+String.valueOf(readTemp.getInt(readTemp.getColumnIndex(section[2])));
-        }
-        Log.v("tablist",sss);
-        //tx.setText(sss);
-        readTemp.close();
 
         dbs.close();
         return true;
@@ -188,7 +167,6 @@ public class MainActivity extends AppCompatActivity{
         final String[] mClassItem = getResources().getStringArray(R.array.class_name);
         ArrayAdapter<String> stringAdapter = new ArrayAdapter<String>(this,android.R.layout.simple_spinner_item,mClassItem);
         stringAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
-
         mSpinner.setAdapter(stringAdapter);
         mSpinner.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
             @Override
@@ -231,21 +209,14 @@ public class MainActivity extends AppCompatActivity{
                     {
                         linearLayout2.removeView(v);
                         v.setTag(0);
-                        //Toast.makeText(getApplicationContext(),"123",Toast.LENGTH_LONG).show();
+
                         linearLayout1.addView(v);
                     }
                 }
             });
         }
     }
-    /*判断表存不存在，写不来
-    public  boolean SqlCreated(SQLiteDatabase dbs,String nowTimeStr)
-    {
-        Cursor readTemp;
-        readTemp = dbs.rawQuery("select count(*) as c from sqlite_master+ where type ='table' and name ='"+nowTimeStr+"' ",null);
-
-    }
-    */
 }
+
 
 
