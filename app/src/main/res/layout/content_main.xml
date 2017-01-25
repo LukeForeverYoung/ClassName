@@ -11,7 +11,8 @@
     android:paddingTop="@dimen/activity_vertical_margin"
     app:layout_behavior="@string/appbar_scrolling_view_behavior"
     tools:context="com.example.luke.classname.MainActivity"
-    tools:showIn="@layout/activity_main">
+    tools:showIn="@layout/activity_main"
+    >
 
     <LinearLayout
         android:layout_width="match_parent"
@@ -58,9 +59,5 @@
             </LinearLayout>
 
         </ScrollView>
-
     </LinearLayout>
-
-
-
 </RelativeLayout>

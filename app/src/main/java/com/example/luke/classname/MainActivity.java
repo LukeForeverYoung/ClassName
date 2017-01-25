@@ -5,10 +5,15 @@ import android.content.Intent;
 import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
 import android.os.Bundle;
+import android.support.annotation.NonNull;
+import android.support.design.widget.CoordinatorLayout;
 import android.support.design.widget.FloatingActionButton;
+import android.support.design.widget.NavigationView;
 import android.support.design.widget.Snackbar;
+import android.support.v4.widget.DrawerLayout;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
+import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
@@ -22,6 +27,7 @@ import android.widget.Toast;
 import java.util.Calendar;
 
 public class MainActivity extends AppCompatActivity{
+    static String test="Luke ";
     int sum=26;
     int classTag=0;
     public Button btn[] = new Button[sum];
@@ -34,8 +40,41 @@ public class MainActivity extends AppCompatActivity{
             "黄仲英","刘中江","陈启凡","于媛芳",
             "曹志雄","刘强"};
     @Override
+    protected void onPause()
+    {
+        super.onPause();
+        Log.i(test,"My activity Pause");
+    }
+    @Override
+    protected void onStart()
+    {
+        super.onStart();
+        Log.i(test,"My activity Start");
+    }
+    @Override
+    protected void onRestart()
+    {
+        super.onRestart();
+        Log.i(test,"My activity Restart");
+    }
+    @Override
+    protected void onStop()
+    {
+        super.onStop();
+        Log.i(test,"My activity Stop");
+    }
+    @Override
+    protected void onResume()
+    {
+        super.onResume();
+        Log.i(test,"My activity Resume");
+    }
+
+    @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        Log.i(test,"My activity Create");
+
         setContentView(R.layout.activity_main);
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
@@ -55,8 +94,32 @@ public class MainActivity extends AppCompatActivity{
         fab.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                Snackbar.make(view, "Replace with your own action", Snackbar.LENGTH_LONG)
-                        .setAction("Action", null).show();
+                Snackbar.make(findViewById(R.id.abc),"保存ing",Snackbar.LENGTH_LONG).show();
+
+                if(saveDataFunc())
+                    Toast.makeText(getApplicationContext(),"保存完毕",Toast.LENGTH_LONG).show();
+                else
+                    Toast.makeText(getApplicationContext(),"保存失败",Toast.LENGTH_LONG).show();
+
+            }
+        });
+        NavigationView naviView = (NavigationView)findViewById(R.id.navigation);
+        naviView.setNavigationItemSelectedListener(new NavigationView.OnNavigationItemSelectedListener() {
+            @Override
+            public boolean onNavigationItemSelected(@NonNull MenuItem item) {
+                int id=item.getItemId();
+                boolean flag=true;
+                DrawerLayout dl = (DrawerLayout)findViewById(R.id.drawer_layout_nav);
+
+                switch (id)
+                {
+                    case R.id.show_list:
+                        Intent showNameIntent = new Intent();
+                        showNameIntent.setClass(MainActivity.this,NameListActivity.class);
+                        startActivity(showNameIntent);
+                        break;
+                }
+                return flag;
             }
         });
     }
@@ -83,15 +146,6 @@ public class MainActivity extends AppCompatActivity{
         //Log.v("12","123");
         switch (id)
         {
-            case R.id.save_info:
-            {
-                Toast.makeText(getApplicationContext(),"保存ing",Toast.LENGTH_SHORT).show();
-                if(saveDataFunc())
-                    Toast.makeText(getApplicationContext(),"保存完毕",Toast.LENGTH_LONG).show();
-                else
-                    Toast.makeText(getApplicationContext(),"保存失败",Toast.LENGTH_LONG).show();
-            }
-            break;
             case R.id.show_list:
             {
                 Intent showNameIntent = new Intent();
@@ -105,6 +159,7 @@ public class MainActivity extends AppCompatActivity{
         }
         return super.onOptionsItemSelected(item);
     }
+
     //保存当前名单状态
     public boolean saveDataFunc()
     {
@@ -165,7 +220,7 @@ public class MainActivity extends AppCompatActivity{
     {
         Spinner mSpinner = (Spinner) findViewById(R.id.classSpinner);
         final String[] mClassItem = getResources().getStringArray(R.array.class_name);
-        ArrayAdapter<String> stringAdapter = new ArrayAdapter<String>(this,android.R.layout.simple_spinner_item,mClassItem);
+        ArrayAdapter<String> stringAdapter = new ArrayAdapter<String>(this,android.R.layout.simple_spinner_dropdown_item,mClassItem);
         stringAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
         mSpinner.setAdapter(stringAdapter);
         mSpinner.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {

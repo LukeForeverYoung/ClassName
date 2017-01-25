@@ -113,7 +113,7 @@ public class NameListActivity extends AppCompatActivity {
         final String[] mTabList = new String[classList.size()];
         for(int i=0;i<classList.size();i++)
             mTabList[i]=classList.get(i).Time+mClassName[classList.get(i).classTag];
-        ArrayAdapter<String> stringAdapter = new ArrayAdapter<String>(this,android.R.layout.simple_spinner_item,mTabList);
+        ArrayAdapter<String> stringAdapter = new ArrayAdapter<String>(this,android.R.layout.simple_spinner_dropdown_item,mTabList);
         stringAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
         mSpinner.setAdapter(stringAdapter);
         mSpinner.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
