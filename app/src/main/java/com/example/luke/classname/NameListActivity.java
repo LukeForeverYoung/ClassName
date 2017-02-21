@@ -135,7 +135,7 @@ public class NameListActivity extends AppCompatActivity {
         boolean txFlag=true;
         for(Stu nowStu:now.stu)
         {
-            if(nowStu.state==1)
+            if(nowStu.state==0)
             {
                 TextView tx = new TextView(this);
                 tx.setText(nowStu.name);

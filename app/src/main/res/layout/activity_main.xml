@@ -22,22 +22,23 @@
             app:popupTheme="@style/AppTheme.PopupOverlay" />
 
     </android.support.design.widget.AppBarLayout>
-    <android.support.v4.widget.DrawerLayout
-        android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:id="@+id/drawer_layout_nav">
 
-        <include layout="@layout/content_main" />
-        <android.support.design.widget.NavigationView
+        <android.support.v4.widget.DrawerLayout
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            android:layout_gravity="left"
-            android:id="@+id/navigation"
-            app:headerLayout="@layout/header_layout"
-            app:menu="@menu/menu_main"
-            >
-        </android.support.design.widget.NavigationView>
-    </android.support.v4.widget.DrawerLayout>
+            android:id="@+id/drawer_layout_nav">
+
+            <include layout="@layout/content_main"/>
+            <android.support.design.widget.NavigationView
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:layout_gravity="left"
+                android:id="@+id/navigation"
+                app:headerLayout="@layout/header_layout"
+                app:menu="@menu/menu_main"
+                >
+            </android.support.design.widget.NavigationView>
+        </android.support.v4.widget.DrawerLayout>
     <android.support.design.widget.FloatingActionButton
         android:id="@+id/fab"
         android:layout_width="wrap_content"
@@ -46,4 +47,6 @@
         android:layout_margin="@dimen/fab_margin"
         app:srcCompat="@android:drawable/ic_menu_save"
         />
+
+
 </android.support.design.widget.CoordinatorLayout>

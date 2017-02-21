@@ -174,13 +174,15 @@ public class MainActivity extends AppCompatActivity{
         String tabName = "classTag"+classTag+nowTimeStr;
         //Log.v("str",tabName);
         String creatCom = "create table "+tabName+" (ID INT PRIMARY KEY NOT NULL,name text,tag int)";
-        if(!tabExist(dbs,tabName))
-            dbs.execSQL(creatCom);
-
+        if(tabExist(dbs,tabName))
+        {
+            dbs.execSQL("drop table "+tabName);
+           // dbs.execSQL("update sqlite_sequence set seq=0 where name = 'TableName'");
+        }
+        dbs.execSQL(creatCom);
+        
         for(int i=0;i<sum;i++)
         {
-            if(i==sum-2)
-                i=sum-2;
             ContentValues tempStu = new ContentValues();
             //String test ="insert into "+nowTimeStr+"(name,tag) values('"+stuName[i]+"',"+btn[i].getTag().toString()+")";
             //dbs.execSQL("insert into "+nowTimeStr+"(name,tag) values(?,?)",new Object[]{nowTimeStr,stuName[i],(int)btn[i].getTag()});

@@ -22,7 +22,8 @@
         <Spinner
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:id="@+id/classSpinner">
+            android:id="@+id/classSpinner"
+            android:layout_marginTop="30dp">
         </Spinner>
         <ScrollView
             android:layout_width="match_parent"
