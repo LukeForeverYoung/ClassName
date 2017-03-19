@@ -2,11 +2,12 @@ package com.example.luke.classname;
 
 import android.content.ContentValues;
 import android.content.Intent;
+import android.content.res.ColorStateList;
 import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
+import android.graphics.Color;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
-import android.support.design.widget.CoordinatorLayout;
 import android.support.design.widget.FloatingActionButton;
 import android.support.design.widget.NavigationView;
 import android.support.design.widget.Snackbar;
@@ -30,6 +31,7 @@ public class MainActivity extends AppCompatActivity{
     static String test="Luke ";
     int sum=26;
     int classTag=0;
+    int FinOrLateFlag;
     public Button btn[] = new Button[sum];
     static public String stuName[] = new String[]{
             "施信含", "曹焰", "邱若晨", "吕玉辉",
@@ -69,7 +71,6 @@ public class MainActivity extends AppCompatActivity{
         super.onResume();
         Log.i(test,"My activity Resume");
     }
-
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -78,9 +79,10 @@ public class MainActivity extends AppCompatActivity{
         setContentView(R.layout.activity_main);
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
-        final LinearLayout linearLayout1 = (LinearLayout) findViewById(R.id.bodyLayout1);
-        final LinearLayout linearLayout2 = (LinearLayout) findViewById(R.id.bodyLayout2);
-
+        final LinearLayout linearLayout1 = (LinearLayout) findViewById(R.id.waitingLayout);
+        final LinearLayout linearLayout2 = (LinearLayout) findViewById(R.id.finishLayout);
+        final LinearLayout linearLayout3=(LinearLayout) findViewById(R.id.lateLayout);
+        FinOrLateFlag=1;
         //LinearLayout.LayoutParams lp = new LinearLayout.LayoutParams(LinearLayout.LayoutParams.WRAP_CONTENT, LinearLayout.LayoutParams.WRAP_CONTENT);
         //lp.setMargins(1,10,100,1);
 
@@ -88,7 +90,7 @@ public class MainActivity extends AppCompatActivity{
         /*
         动态加载名单按钮,并设置onClick监听器
          */
-        initNameBtn(linearLayout1,linearLayout2);
+        initNameBtn(linearLayout1,linearLayout2,linearLayout3);
 
         FloatingActionButton fab = (FloatingActionButton) findViewById(R.id.fab);
         fab.setOnClickListener(new View.OnClickListener() {
@@ -107,7 +109,23 @@ public class MainActivity extends AppCompatActivity{
         fabRefresh.setOnClickListener(new View.OnClickListener(){
             @Override
             public void onClick(View view) {
-                initNameBtn(linearLayout1,linearLayout2);
+                initNameBtn(linearLayout1,linearLayout2,linearLayout3);
+            }
+        });
+        FloatingActionButton changeMode=(FloatingActionButton) findViewById(R.id.changeModeFab);
+        changeMode.setOnClickListener(new View.OnClickListener(){
+            @Override
+            public void onClick(View view) {
+                if(FinOrLateFlag==1)
+                {
+                    FinOrLateFlag=2;
+
+                }
+                else
+                {
+                    FinOrLateFlag=3;
+
+                }
             }
         });
         NavigationView naviView = (NavigationView)findViewById(R.id.navigation);
@@ -198,7 +216,6 @@ public class MainActivity extends AppCompatActivity{
             tempStu.put("tag",(int)btn[i].getTag());
             dbs.insert(tabName,null,tempStu);
         }
-
         dbs.close();
         return true;
     }
@@ -245,10 +262,11 @@ public class MainActivity extends AppCompatActivity{
             }
         });
     }
-    void initNameBtn(final LinearLayout linearLayout1,final LinearLayout linearLayout2)
+    void initNameBtn(final LinearLayout linearLayout1,final LinearLayout linearLayout2,final LinearLayout linearLayout3)
     {
         linearLayout1.removeAllViews();
         linearLayout2.removeAllViews();
+        linearLayout3.removeAllViews();
         for(int i=0;i<sum;i++)
         {
             btn[i]=new Button(this);
@@ -268,14 +286,23 @@ public class MainActivity extends AppCompatActivity{
                     if((int)v.getTag()==0)
                     {
                         linearLayout1.removeView(v);
-                        v.setTag(1);
-                        linearLayout2.addView(v);
+                        if(FinOrLateFlag==1)
+                        {
+                            v.setTag(1);
+                            linearLayout2.addView(v);
+                        }
+                        else if(FinOrLateFlag==2) {
+                            v.setTag(2);
+                            linearLayout3.addView(v);
+                        }
                     }
                     else
                     {
-                        linearLayout2.removeView(v);
+                        if((int)v.getTag()==1)
+                            linearLayout2.removeView(v);
+                        else if((int)v.getTag()==2)
+                            linearLayout3.removeView(v);
                         v.setTag(0);
-
                         linearLayout1.addView(v);
                     }
                 }

@@ -53,11 +53,22 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_gravity="bottom|end"
-        android:layout_marginBottom="100dp"
+        android:layout_marginBottom="86dp"
         android:layout_marginRight="16dp"
         android:backgroundTint="@color/colorGreen"
         app:borderWidth="0dp"
         app:srcCompat="@drawable/refresh"
+        />
+    <android.support.design.widget.FloatingActionButton
+        android:id="@+id/changeModeFab"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="bottom|end"
+        android:layout_marginBottom="156dp"
+        android:layout_marginRight="16dp"
+        android:backgroundTint="@color/blueName"
+        app:borderWidth="0dp"
+        app:srcCompat="@drawable/changemode"
         />
 
 

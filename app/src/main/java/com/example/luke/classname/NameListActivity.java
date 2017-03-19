@@ -30,19 +30,18 @@ public class NameListActivity extends AppCompatActivity {
         int year;
         int mon;
         int day;
-        String[] state = new String[]{"来了","没来"};
-        public List<Stu> stu;
+        String[] state = new String[]{"缺勤","迟到"};
+        public ArrayList<Stu> OutOfClassStu;
+        public ArrayList<Stu> LateStu;
         public void getClassInfo(String tabName)
         {
             boolean f=true;
             int tag=0;
             for(int i=0;i<tabName.length();i++)
             {
-
                 char temp=tabName.charAt(i);
                 if(f)
                 {
-
                     if(Character.isDigit(temp)) {
                         tag *= 10;
                         tag += temp - '0';
@@ -55,7 +54,6 @@ public class NameListActivity extends AppCompatActivity {
                     Time=tabName.substring(i+2);
                     break;
                 }
-
             }
             String[] temp=Time.split("_");
             year=Integer.parseInt(temp[0]);
@@ -65,14 +63,14 @@ public class NameListActivity extends AppCompatActivity {
         }
         public everyClass()
         {
-            stu = new ArrayList();
+            OutOfClassStu = new ArrayList<Stu>();
+            LateStu = new ArrayList<Stu>();
         }
     }
     public class Stu
     {
         String name;
         int state;
-
     }
     @Override
     protected void onCreate(Bundle saveInstanceState)
@@ -87,7 +85,7 @@ public class NameListActivity extends AppCompatActivity {
         Cursor findTab,readTemp;
         findTab=dbs.rawQuery(sql,null);
         String section[] = new String[]{"ID","name","tag"};
-        final List<everyClass> classList = new ArrayList();//存放所有表
+        final List<everyClass> classList = new ArrayList<>();//存放所有表
         findTab.moveToNext();//跳过第一个android_metadata
         while(findTab.moveToNext())
         {
@@ -100,7 +98,10 @@ public class NameListActivity extends AppCompatActivity {
                 Stu student = new Stu();
                 student.name=readTemp.getString(1);
                 student.state=readTemp.getInt(2);
-                nowClass.stu.add(student);
+                if(student.state==0)
+                    nowClass.OutOfClassStu.add(student);
+                else if(student.state==2)
+                    nowClass.LateStu.add(student);
             }
             readTemp.close();
             classList.add(nowClass);
@@ -133,10 +134,18 @@ public class NameListActivity extends AppCompatActivity {
         LinearLayout lp = (LinearLayout) findViewById(R.id.nameList);
         lp.removeAllViews();
         boolean txFlag=true;
-        for(Stu nowStu:now.stu)
+
+        if(now.OutOfClassStu.size()!=0)
         {
-            if(nowStu.state==0)
-            {
+            TextView OutOfClassHead = new TextView(this);
+            OutOfClassHead.setText("下列同学缺勤");
+            OutOfClassHead.setTextSize(26);
+            OutOfClassHead.setGravity(Gravity.CENTER);
+            OutOfClassHead.setTextColor(getColor(R.color.redName));
+            lp.addView(OutOfClassHead);
+        }
+        for(Stu nowStu:now.OutOfClassStu)
+        {
                 TextView tx = new TextView(this);
                 tx.setText(nowStu.name);
                 tx.setTextSize(26);
@@ -144,7 +153,25 @@ public class NameListActivity extends AppCompatActivity {
                 tx.setTextColor(getColor(R.color.redName));
                 lp.addView(tx);
                 txFlag=false;
-            }
+        }
+        if(now.LateStu.size()!=0)
+        {
+            TextView LateHead = new TextView(this);
+            LateHead.setText("下列同学迟到");
+            LateHead.setTextSize(26);
+            LateHead.setGravity(Gravity.CENTER);
+            LateHead.setTextColor(getColor(R.color.blueName));
+            lp.addView(LateHead);
+        }
+        for(Stu nowStu:now.LateStu)
+        {
+                TextView tx = new TextView(this);
+                tx.setText(nowStu.name);
+                tx.setTextSize(26);
+                tx.setGravity(Gravity.CENTER);
+                tx.setTextColor(getColor(R.color.blueName));
+                lp.addView(tx);
+                txFlag=false;
         }
         if(txFlag)
         {
@@ -155,6 +182,7 @@ public class NameListActivity extends AppCompatActivity {
             tx.setTextColor(getColor(R.color.colorGreen));
             lp.addView(tx);
         }
+
     }
     class sortByTimeAndClass implements Comparator<everyClass>
     {
