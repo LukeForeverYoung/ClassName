@@ -103,6 +103,13 @@ public class MainActivity extends AppCompatActivity{
 
             }
         });
+        FloatingActionButton fabRefresh=(FloatingActionButton) findViewById(R.id.refreshFab);
+        fabRefresh.setOnClickListener(new View.OnClickListener(){
+            @Override
+            public void onClick(View view) {
+                initNameBtn(linearLayout1,linearLayout2);
+            }
+        });
         NavigationView naviView = (NavigationView)findViewById(R.id.navigation);
         naviView.setNavigationItemSelectedListener(new NavigationView.OnNavigationItemSelectedListener() {
             @Override
@@ -240,6 +247,8 @@ public class MainActivity extends AppCompatActivity{
     }
     void initNameBtn(final LinearLayout linearLayout1,final LinearLayout linearLayout2)
     {
+        linearLayout1.removeAllViews();
+        linearLayout2.removeAllViews();
         for(int i=0;i<sum;i++)
         {
             btn[i]=new Button(this);
