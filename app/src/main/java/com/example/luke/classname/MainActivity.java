@@ -3,9 +3,11 @@ package com.example.luke.classname;
 import android.content.ContentValues;
 import android.content.Intent;
 import android.content.res.ColorStateList;
+import android.content.res.Resources;
 import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
 import android.graphics.Color;
+import android.graphics.PorterDuff;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.design.widget.FloatingActionButton;
@@ -76,6 +78,8 @@ public class MainActivity extends AppCompatActivity{
         super.onCreate(savedInstanceState);
         Log.i(test,"My activity Create");
 
+
+
         setContentView(R.layout.activity_main);
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
@@ -96,6 +100,7 @@ public class MainActivity extends AppCompatActivity{
         fab.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
+
                 Snackbar.make(findViewById(R.id.abc),"保存ing",Snackbar.LENGTH_LONG).show();
 
                 if(saveDataFunc())
@@ -118,13 +123,13 @@ public class MainActivity extends AppCompatActivity{
             public void onClick(View view) {
                 if(FinOrLateFlag==1)
                 {
+                    changeMode.getBackground().setColorFilter(getResources().getColor(R.color.origin,null), PorterDuff.Mode.SRC);
                     FinOrLateFlag=2;
-
                 }
                 else
                 {
-                    FinOrLateFlag=3;
-
+                    changeMode.getBackground().setColorFilter(getResources().getColor(R.color.blueName,null), PorterDuff.Mode.SRC);
+                    FinOrLateFlag=1;
                 }
             }
         });
@@ -176,6 +181,14 @@ public class MainActivity extends AppCompatActivity{
                 Intent showNameIntent = new Intent();
                 showNameIntent.setClass(MainActivity.this,NameListActivity.class);
                 startActivity(showNameIntent);
+                break;
+            }
+            case R.id.action_settings:
+            {
+                Intent SettingsIntent = new Intent();
+                SettingsIntent.setClass(MainActivity.this,SettingActivity.class);
+                startActivity(SettingsIntent);
+                break;
             }
         }
         //noinspection SimplifiableIfStatement
@@ -235,6 +248,7 @@ public class MainActivity extends AppCompatActivity{
                 if(cnt>0)
                     rec=true;
             }
+            cursor.close();
         }
         catch (Exception e)
         {
@@ -246,7 +260,7 @@ public class MainActivity extends AppCompatActivity{
     {
         Spinner mSpinner = (Spinner) findViewById(R.id.classSpinner);
         final String[] mClassItem = getResources().getStringArray(R.array.class_name);
-        ArrayAdapter<String> stringAdapter = new ArrayAdapter<String>(this,android.R.layout.simple_spinner_dropdown_item,mClassItem);
+        ArrayAdapter<String> stringAdapter = new ArrayAdapter<>(this,android.R.layout.simple_spinner_dropdown_item,mClassItem);
         stringAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
         mSpinner.setAdapter(stringAdapter);
         mSpinner.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
