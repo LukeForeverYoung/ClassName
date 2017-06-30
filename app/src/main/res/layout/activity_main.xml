@@ -70,7 +70,7 @@
         android:background="@color/origin"
 
         app:borderWidth="0dp"
-        app:srcCompat="@drawable/changemode"
+        app:srcCompat="@drawable/change_mode"
         />
 
 

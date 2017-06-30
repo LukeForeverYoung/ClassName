@@ -2,6 +2,7 @@ package com.example.luke.classname;
 
 import android.content.ContentValues;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.content.res.ColorStateList;
 import android.content.res.Resources;
 import android.database.Cursor;
@@ -9,6 +10,8 @@ import android.database.sqlite.SQLiteDatabase;
 import android.graphics.Color;
 import android.graphics.PorterDuff;
 import android.os.Bundle;
+import android.preference.EditTextPreference;
+import android.preference.PreferenceManager;
 import android.support.annotation.NonNull;
 import android.support.design.widget.FloatingActionButton;
 import android.support.design.widget.NavigationView;
@@ -71,14 +74,12 @@ public class MainActivity extends AppCompatActivity{
     protected void onResume()
     {
         super.onResume();
+        testInitString();
         Log.i(test,"My activity Resume");
     }
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        Log.i(test,"My activity Create");
-
-
 
         setContentView(R.layout.activity_main);
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
@@ -89,8 +90,8 @@ public class MainActivity extends AppCompatActivity{
         FinOrLateFlag=1;
         //LinearLayout.LayoutParams lp = new LinearLayout.LayoutParams(LinearLayout.LayoutParams.WRAP_CONTENT, LinearLayout.LayoutParams.WRAP_CONTENT);
         //lp.setMargins(1,10,100,1);
-
-        initClassSelector();
+        testInitString();
+        //initClassSelector();
         /*
         动态加载名单按钮,并设置onClick监听器
          */
@@ -152,6 +153,13 @@ public class MainActivity extends AppCompatActivity{
                 return flag;
             }
         });
+    }
+    private  void testInitString()
+    {
+        SharedPreferences sp= PreferenceManager.getDefaultSharedPreferences(this);
+        stuName=sp.getString("studentListSetting","no").split(",|，");
+        sum=stuName.length;
+        initClassSelector();
     }
     /*
     Creating Menu
@@ -259,7 +267,9 @@ public class MainActivity extends AppCompatActivity{
     void initClassSelector()
     {
         Spinner mSpinner = (Spinner) findViewById(R.id.classSpinner);
-        final String[] mClassItem = getResources().getStringArray(R.array.class_name);
+        //String[] mClassItem = getResources().getStringArray(R.array.class_name);
+        SharedPreferences sp= PreferenceManager.getDefaultSharedPreferences(this);
+        String[] mClassItem = sp.getString("classListSetting","no").split(",|，");
         ArrayAdapter<String> stringAdapter = new ArrayAdapter<>(this,android.R.layout.simple_spinner_dropdown_item,mClassItem);
         stringAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
         mSpinner.setAdapter(stringAdapter);

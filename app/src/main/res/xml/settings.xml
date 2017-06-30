@@ -4,17 +4,26 @@
     android:layout_height="wrap_content"
     android:title="@string/action_settings"
     android:layout_width="wrap_content">
-    <Preference
-        android:layout="@layout/setting_head"></Preference>
+
     <PreferenceCategory
-        android:title="@string/action_settings"></PreferenceCategory>
-    <!-- 有四个基本组建，这个例子学习两个。里面的内容对照图，很容易理解，RingtonePreference是选择铃音，这里给出两个选择，系统默认的铃音和无声 -->
-    <CheckBoxPreference android:key="checkbox"
-        android:title="CheckBox Preference"
-        android:summary="Check it on , check it off"/>
-    <RingtonePreference android:key="ringtone"
-        android:title="Ringtone Preference"
-        android:showDefault="true"
-        android:showSilent="true"
-        android:summary="Pick a tone, any tone"/>
+        android:title="同学名单">
+        <EditTextPreference
+            android:dialogTitle="同学名单"
+            android:key="studentListSetting"
+            android:summary="用,隔开">
+
+        </EditTextPreference>
+
+    </PreferenceCategory>
+    <PreferenceCategory
+        android:title="课程名单">
+        <EditTextPreference
+            android:dialogTitle="课程名单"
+            android:key="classListSetting"
+            android:summary="用,隔开">
+
+        </EditTextPreference>
+
+    </PreferenceCategory>
+
 </PreferenceScreen>
